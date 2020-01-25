@@ -1,0 +1,164 @@
++*In[1]:*+
+[source, ipython3]
+----
+import threading 
+print('current executing Thread:',threading.current_thread().getName())
+----
+
+
++*Out[1]:*+
+----
+current executing Thread: MainThread
+----
+
+
++*In[2]:*+
+[source, ipython3]
+----
+#The ways of creating thread in python 
+#1 creating a thread without using any class
+from threading import *
+def display():
+    print("This code executed by thread:",current_thread().getName()) #Thread 1
+t=Thread(target=display)#MainThread creates childthread 
+t.start() #Main thread starts child Thread
+print('This code executed by Thread:',current_thread().getName()) #Executed by main thread 
+----
+
+
++*Out[2]:*+
+----
+This code executed by thread:This code executed by Thread: Thread-6
+ MainThread
+----
+
+
++*In[3]:*+
+[source, ipython3]
+----
+from threading import *
+def display():
+    for i in range(10):
+        print("child Thread")
+t=Thread(target=display)
+t.start()
+for i in range(10):
+    print("Main Thread")
+----
+
+
++*Out[3]:*+
+----
+child ThreadMain Thread
+child Thread
+child Thread
+child Thread
+child Thread
+child Thread
+child Thread
+child Thread
+child Thread
+child Thread
+
+Main Thread
+Main Thread
+Main Thread
+Main Thread
+Main Thread
+Main Thread
+Main Thread
+Main Thread
+Main Thread
+----
+
+
++*In[6]:*+
+[source, ipython3]
+----
+#creating a thread by extending Thread class.
+from threading import *
+class Test:
+    def display(self):
+        for i in range(10):
+            print('child Thread')
+obj=Test()
+t= Thread(target=obj.display)
+t.start()
+for i in range(10):
+    print('main thread')
+
+----
+
+
++*Out[6]:*+
+----
+child Threadmain thread
+main thread
+main thread
+main thread
+main thread
+main thread
+main thread
+main thread
+main thread
+main thread
+
+child Thread
+child Thread
+child Thread
+child Thread
+child Thread
+child Thread
+child Thread
+child Thread
+child Thread
+----
+
+
++*In[7]:*+
+[source, ipython3]
+----
+from threading import *
+import time
+def doubles(numbers):
+    for n in numbers:
+        time.sleep(1)
+        print("Double:",2*n)
+def squares(numbers):
+    for n in numbers:
+        time.sleep(1)
+        print("Square:",n*n)
+numbers=[1,2,3,4,5,6]
+begintime=time.time()
+t1=Thread(target=doubles,args=(numbers,))
+t2=Thread(target=squares,args=(numbers,))
+t1.start()
+t2.start()
+endtime=time.time()
+print("The total time taken:",endtime-begintime)
+----
+
+
++*Out[7]:*+
+----
+The total time taken: 0.004997730255126953
+Double:Square: 1
+ 2
+Square: 4Double: 
+4
+Double:Square: 9
+ 6
+Square:Double: 8
+ 16
+Double: 10Square:
+ 25
+Square:Double: 12
+ 36
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
